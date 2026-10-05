@@ -1,0 +1,17 @@
+# Qt build artifacts
+build*/
+Makefile
+*.o
+*.exe
+ui_*.h
+moc_*.cpp
+qrc_*.cpp
+
+# Qt Creator user settings
+*.pro.user*
+CMakeLists.txt.user*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
