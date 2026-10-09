@@ -17,6 +17,17 @@ bool parkingsystem::carin(QString plate) {
         //wait
         return true;//检查大小可检测是具体排队了还是入队了
     }
+
+    int unused = qHash(plate) % parknum;//第一处不封装的车位逻辑
+    QSet<int> usedcar;
+    for (const auto& car : activecar) usedcar.insert(car.spotposition);
+    int parknum2 = parknum;
+    while (parknum2--) {
+        if(!usedcar.contains(unused)) break;
+        unused++;
+        unused %= parknum;
+    }
+
     activecar.push_back({
         plate,
         QDateTime::currentDateTime(),
@@ -24,6 +35,7 @@ bool parkingsystem::carin(QString plate) {
         0,//车位忘记做了？这个是等待序号
                          QDateTime(),
         //0,//实际花费，其实可以不用，仅仅是预计和历史都可以通过相减逻辑实现
+        unused,
     });
 
     return true;//入队成功
@@ -73,15 +85,28 @@ bool parkingsystem::carout(QString plate) {
     }
 
     int parknum = parkcfg.cfg_parknum();
+
     if (parknum == activecar.size() + 1 && !waitingcar.empty()) {
         tempcar = waitingcar.front();
         waitingcar.pop_front();
+
+        int unused = qHash(tempcar.plate) % parknum;//第二处不封装的车位逻辑
+        QSet<int> usedcar;
+        for (const auto& car : activecar) usedcar.insert(car.spotposition);
+        int parknum2 = parknum;
+        while (parknum2--) {
+            if(!usedcar.contains(unused)) break;
+            unused++;
+            unused %= parknum;
+        }
+
         activecar.push_back({
             tempcar.plate,
                              QDateTime::currentDateTime(),
                              QDateTime(),
             0,
                              QDateTime(),
+            unused,
         });
         //出队的时候如果满人了，先要判断合法出队，出队成功，如果满人，如果没满人,按照单线程思路，没满人之前有carout守关，waitingcar不可能有元素
     }
@@ -116,3 +141,19 @@ void parkingsystem::generatemockdata() {
     waitingcar.push_back({"粤C12345", QDateTime(), QDateTime(), 3, QDateTime::currentDateTime()});
     historycar.push_back({"粤D99999", QDateTime::currentDateTime().addDays(-1), QDateTime::currentDateTime().addSecs(-7200), 4, QDateTime()});
 }
+/*
+void parkingsystem::xx() {
+    int parknum = parkcfg.cfg_parknum();
+    int unused = qHash(plate) % parknum;
+    QSet<int> usedcar;
+    for (const auto& car : activecar) usedcar.insert(car.spotposition);
+    int parknum2 = parknum;
+    while (parknum2--) {
+        if(!usedcar.contains(unused)) break;
+        unused++;
+        unused %= parknum;
+    }
+    //push unused
+
+}//abandon
+*/

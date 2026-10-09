@@ -57,7 +57,7 @@ void MainWindow::refreshtable() {
     int table_row = 0;
     for(auto car: activecar) {
         ui->table_parking->setItem(table_row, 0, new QTableWidgetItem(car.plate));
-        ui->table_parking->setItem(table_row, 1, new QTableWidgetItem(QString::number(table_row)));
+        ui->table_parking->setItem(table_row, 1, new QTableWidgetItem(QString::number(car.spotposition)));
         //ui->table_parking->setItem(table_row, 1, new QTableWidgetItem(car.carplatenumber));
         ui->table_parking->setItem(table_row, 2, new QTableWidgetItem(car.intime.toString("yyyy-MM-dd HH-mm-ss")));
         ui->table_parking->setItem(table_row, 3, new QTableWidgetItem(QString::number(mysystem.anticipatesettle(car.intime, car.outtime))));
