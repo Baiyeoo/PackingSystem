@@ -73,51 +73,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QTableWidget" name="table_parking">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>170</y>
-      <width>571</width>
-      <height>151</height>
-     </rect>
-    </property>
-    <row>
-     <property name="text">
-      <string>case 1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>case 2</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>case 3</string>
-     </property>
-    </row>
-    <column>
-     <property name="text">
-      <string>车牌号</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>车位号</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>入场时间</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>预估费用</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QLabel" name="messege">
     <property name="geometry">
      <rect>
@@ -131,90 +86,95 @@
      <string/>
     </property>
    </widget>
-   <widget class="QTableWidget" name="table_queue">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>350</y>
-      <width>441</width>
-      <height>151</height>
+      <x>10</x>
+      <y>160</y>
+      <width>451</width>
+      <height>431</height>
      </rect>
     </property>
-    <row>
-     <property name="text">
-      <string>case 1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>case 2</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>case 3</string>
-     </property>
-    </row>
-    <column>
-     <property name="text">
-      <string>车牌号</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>排队序号</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>入队时间</string>
-     </property>
-    </column>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTableWidget" name="table_parking">
+       <column>
+        <property name="text">
+         <string>车牌号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>车位号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>入场时间</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>预估费用</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="table_deque">
+       <column>
+        <property name="text">
+         <string>车牌号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>排队序号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>入队时间</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="table_history">
+       <column>
+        <property name="text">
+         <string>车牌号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>入场时间</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>出场时间</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>实收金额</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QTableWidget" name="table_history">
+   <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>530</y>
-      <width>561</width>
-      <height>151</height>
+      <x>530</x>
+      <y>160</y>
+      <width>421</width>
+      <height>431</height>
      </rect>
     </property>
-    <row>
-     <property name="text">
-      <string>case 1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>case 2</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>case 3</string>
-     </property>
-    </row>
-    <column>
-     <property name="text">
-      <string>新建列</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>入场时间</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>出场时间</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>实收金额</string>
-     </property>
-    </column>
+    <layout class="QGridLayout" name="gridLayout"/>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

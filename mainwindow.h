@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include "provide.h"
-
+#include <QVector>
+#include <QPushButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,12 +23,16 @@ public:
 
 private slots:
        void on_botton_clicked();
+    void spotbtnclick(int spotposition);
 private:
     Ui::MainWindow *ui;
 
     parkingsystem mysystem;//ui与业务沟通的桥梁
+    QVector<QPushButton*> m_spotButtons;
     void initialtable();
     void refreshtable();
+    void initialgridlayout();
+    void refreshgridlayout();
 
 
 };

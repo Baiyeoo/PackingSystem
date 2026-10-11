@@ -4,6 +4,9 @@
 #include <QTableWidgetItem>
 #include "provide.h"
 #include <QHeaderView>
+#include <QPushButton>
+#include <QLayoutItem>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     initialtable();//8888888888
     //同样对mysystem处理
     //apparently connect;
+    initialgridlayout();
 }
 
 MainWindow::~MainWindow()
@@ -96,4 +100,65 @@ void MainWindow::on_botton_clicked() {
     }
 
     refreshtable();
+    refreshgridlayout();
 }
+void MainWindow::spotbtnclick(int spotposition) {
+    for (const auto& car : mysystem.getactivecar()) {
+        if (car.spotposition == spotposition) {
+            int cost = mysystem.anticipatesettle(car.intime, QDateTime());
+            QMessageBox::information(this, "车位详情",
+                                     QString("车位：%1\n车牌：%2\n入场：%3\n预估费用：%4 元")
+                                         .arg(spotposition + 1)
+                                         .arg(car.plate)
+                                         .arg(car.intime.toString("yyyy-MM-dd HH:mm:ss"))
+                                         .arg(cost));
+            ui->plate->setText(car.plate);
+            return;
+        }
+    }
+    QMessageBox::information(this, "车位详情", "该车位空闲");
+    //ui->messege->setText(QString("spotposition %1").arg(spotposition + 1));
+}
+void MainWindow::initialgridlayout() {
+    int parknum = mysystem.parkcfg.cfg_parknum();
+    int cols = 5;
+    QLayoutItem* item;
+    while((item = ui->gridLayout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+    m_spotButtons.clear();
+
+    for(int i = 0; i < parknum; i++) {
+        QPushButton* btn = new QPushButton(QString("车位 %1").arg(i + 1), this);
+        btn->setFixedSize(80, 60);
+
+        int row = i / cols;
+        int col = i % cols;
+        ui->gridLayout->addWidget(btn, row, col);
+        connect(btn, &QPushButton::clicked, this, [this, i](){
+            spotbtnclick(i);
+        });
+        m_spotButtons.append(btn);
+    }
+}
+
+void MainWindow::refreshgridlayout() {
+    QHash<int, parkingsystem::Car> spotmap;
+    for (const auto& car : mysystem.getactivecar()) {
+        if(car.spotposition >= 0) {
+            spotmap[car.spotposition] = car;
+        }
+    }
+    for (int i = 0; i < m_spotButtons.size(); i++) {
+        QPushButton* btn = m_spotButtons[i];
+        if (spotmap.contains(i)) {
+            btn->setText(spotmap[i].plate);
+            btn->setStyleSheet("background-color: #e74c3c; color: white;");
+        } else {
+            btn->setText(QString("车位 %1").arg(i + 1));
+            btn->setStyleSheet("background-color: #2ecc71; color: white");
+        }
+    }
+}
+
