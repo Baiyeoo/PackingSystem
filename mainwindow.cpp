@@ -44,6 +44,9 @@ void MainWindow::initialtable() {
     ui->table_deque->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->table_history->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自动stretch
 
+    ui->tabWidget->setTabText(0, QString("Parking Tab"));
+    ui->tabWidget->setTabText(1, QString("Waiting Tab"));
+    ui->tabWidget->setTabText(2, QString("History Tab"));
     refreshtable();
 }
 void MainWindow::refreshtable() {
@@ -154,10 +157,10 @@ void MainWindow::refreshgridlayout() {
         QPushButton* btn = m_spotButtons[i];
         if (spotmap.contains(i)) {
             btn->setText(spotmap[i].plate);
-            btn->setStyleSheet("background-color: #e74c3c; color: white;");
+            btn->setStyleSheet("background-color: #d4f4dd; color: #1e7e34;");
         } else {
             btn->setText(QString("车位 %1").arg(i + 1));
-            btn->setStyleSheet("background-color: #2ecc71; color: white");
+            btn->setStyleSheet("background-color: #f8d7da; color: #721c24");
         }
     }
 }
