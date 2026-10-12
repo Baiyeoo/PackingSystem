@@ -6,7 +6,16 @@
 #include <QHeaderView>
 #include <QPushButton>
 #include <QLayoutItem>
+#include "carstore.h"
+#include <QStandardPaths>
+#include <QDir>
+#include <QFileInfo>
 
+static QString defaultdatafile() {
+    const QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir().mkpath(dir);
+    return dir + "/carpark.json";
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,11 +23,23 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    mysystem.generatemockdata();//debug假数据
+    m_datafile = defaultdatafile();
+    if(!carstore::importfrom(mysystem, m_datafile)) {
+        mysystem.generatemockdata();
+    }
+    //mysystem.generatemockdata();//debug假数据
     initialtable();//8888888888
     //同样对mysystem处理
     //apparently connect;
     initialgridlayout();
+
+}
+
+void MainWindow::closeEvent(QCloseEvent* event) {
+    if (!carstore::exportto(mysystem, m_datafile)) {
+        qWarning() <<"关闭保存失败" <<m_datafile;
+    }
+    QMainWindow::closeEvent(event);
 }
 
 MainWindow::~MainWindow()
@@ -144,6 +165,7 @@ void MainWindow::initialgridlayout() {
         });
         m_spotButtons.append(btn);
     }
+    refreshgridlayout();
 }
 
 void MainWindow::refreshgridlayout() {

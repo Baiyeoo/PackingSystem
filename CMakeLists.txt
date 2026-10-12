@@ -25,6 +25,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(PackingSystem
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        carstore.h
+        carstore.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET PackingSystem APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

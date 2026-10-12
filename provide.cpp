@@ -1,5 +1,25 @@
 #include "provide.h"
 #include <algorithm>
+QJsonObject parkingsystem::Car::toJson() const {
+    QJsonObject obj;
+    obj["plate"] = plate;
+    obj["intime"] = intime.toString(Qt::ISODate);
+    obj["outtime"] = outtime.toString(Qt::ISODate);
+    obj["dequenumber"] = dequenumber;
+    obj["indequetime"] = indequetime.toString(Qt::ISODate);
+    obj["spotposition"] = spotposition;
+    return obj;
+}
+parkingsystem::Car parkingsystem::Car::fromJson(const QJsonObject& obj) {
+    Car car;
+    car.plate = obj["plate"].toString();
+    car.intime = QDateTime::fromString(obj["intime"].toString(), Qt::ISODate);
+    car.outtime = QDateTime::fromString(obj["outtime"].toString(), Qt::ISODate);
+    car.dequenumber = obj["dequenumber"].toInt();
+    car.indequetime = QDateTime::fromString(obj["indequetime"].toString(), Qt::ISODate);
+    car.spotposition = obj["spotposition"].toInt(-1);
+    return car;
+}
 bool parkingsystem::carin(QString plate) {
     for(Car car : activecar) {
         if(car.plate == plate) return false;//重复入队
@@ -136,10 +156,14 @@ int parkingsystem::anticipatesettle(QDateTime intime, QDateTime outtime_ifh) {
 }
 
 void parkingsystem::generatemockdata() {
-    activecar.push_back({"粤A88888", QDateTime::currentDateTime(), QDateTime(), 1, QDateTime()});
-    activecar.push_back({"粤B66666", QDateTime::currentDateTime().addSecs(-3600), QDateTime(), 2, QDateTime()});
-    waitingcar.push_back({"粤C12345", QDateTime(), QDateTime(), 3, QDateTime::currentDateTime()});
-    historycar.push_back({"粤D99999", QDateTime::currentDateTime().addDays(-1), QDateTime::currentDateTime().addSecs(-7200), 4, QDateTime()});
+    const QDateTime now = QDateTime::currentDateTime();
+
+    activecar.push_back({"粤A88888", now.addSecs(-1800), QDateTime(), 0, QDateTime(), 0});
+    activecar.push_back({"粤B66666", now.addSecs(-3600), QDateTime(), 0, QDateTime(), 1});
+    activecar.push_back({"粤C12345", now.addSecs(-7200), QDateTime(), 0, QDateTime(), 2});
+
+    historycar.push_back({"粤D99999", now.addDays(-1), now.addSecs(-79200), 0, QDateTime(), 0});
+    historycar.push_back({"粤E11111", now.addDays(-2), now.addSecs(-187200), 0, QDateTime(), 5});
 }
 /*
 void parkingsystem::xx() {
