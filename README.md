@@ -24,8 +24,12 @@
 使用 Qt Creator 打开 `CMakeLists.txt` 配置并构建即可。如果Qt Creator未能自动识别Kit，请前往 工具->外部->配置... ->构建套件(kit)，手动配置Qt 6.8.3与MSVC 2022编译器
 
 ## 运行
+```
 从 [Releases](../../releases) 下载最新 `PackingSystem-vX.X-win64.zip`，
 解压后双击 `PackingSystem.exe` 即可运行，无需安装 Qt。
+由于本程序为课程设计作品，未购买微软签名证书，release首次在 Windows 上运行时可能会弹出“Windows 已保护你的电脑”的 SmartScreen 拦截。
+请点击“更多信息” → “仍要运行”即可正常启动。
+```
 
 ## 数据文件位置
 程序运行时数据保存在：
