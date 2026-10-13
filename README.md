@@ -32,12 +32,14 @@
 C:\Users<用户名>\AppData\Roaming\ParkingSystem\carpark.json
 
 ## 项目结构
+```
 PackingSystem/
 ├── CMakeLists.txt
 ├── main.cpp
 ├── mainwindow.h / .cpp / .ui # UI 层
 ├── provide.h / .cpp # 业务层（parkingsystem）
 └── carstore.h / .cpp # 存储层（JSON 读写）
+```
 
 ## 进度
 - [x] 搭建项目骨架 (CMake + Qt)
